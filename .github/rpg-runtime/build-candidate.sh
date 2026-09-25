@@ -50,7 +50,7 @@ printf '%s\n' '{"minimumEJSVersion":"4.2.3","version":"2.0.2"}' > "$work/stage/b
 printf '%s\n' '{"name":"puae","extensions":["adf","chd","iso"],"options":{"supportsMouse":true},"license":"COPYING","repo":"https://github.com/retrom-project/libretro-uae"}' > "$work/stage/core.json"
 (
   cd "$work/stage"
-  7z a -mtm=off -mta=off -mtc=off -bd -bso0 -bsp0 -t7z \
+  7z a -mtm=off -mta=off -mtc=off -bd -bso0 -bsp0 -t7z -m0=lzma2:d=24 \
     "$output/puae-thread-wasm.data" puae_libretro.js puae_libretro.wasm build.json core.json license.txt
 ) >/dev/null
 install -m 0644 "$work/stage/license.txt" "$output/COPYING"
