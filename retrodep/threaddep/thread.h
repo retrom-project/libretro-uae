@@ -236,13 +236,35 @@ STATIC_INLINE int uae_sem_getvalue (uae_sem_t *sem, int *sval)
 typedef pthread_t uae_thread_id;
 #define BAD_THREAD 0
 
+struct uae_thread_start {
+    void (*func)(void *);
+    void *arg;
+};
+
+STATIC_INLINE void *uae_thread_entry (void *opaque)
+{
+    struct uae_thread_start *start = (struct uae_thread_start *)opaque;
+    void (*func)(void *) = start->func;
+    void *arg = start->arg;
+    free(start);
+    func(arg);
+    return NULL;
+}
+
 STATIC_INLINE int uae_start_thread (char *name, void (*f)(void *), void *arg, uae_thread_id *foo)
 {
     int result;
     uae_thread_id new_foo;
+    struct uae_thread_start *start = (struct uae_thread_start *)malloc(sizeof(*start));
+    if (!start)
+       return 0;
+    start->func = f;
+    start->arg = arg;
     if (!foo)
        foo = &new_foo;
-    result = pthread_create (foo, NULL, (void*)f, arg);
+    result = pthread_create (foo, NULL, uae_thread_entry, start);
+    if (result)
+       free(start);
 
     return 0 == result;
 }

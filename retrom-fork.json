@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "forkRepository": "https://github.com/retrom-project/libretro-uae",
+  "defaultBranch": "retrom/g2245d3443cc1",
+  "upstreamMirrorBranch": "master",
+  "upstreams": [
+    {
+      "role": "emulatorjs-libretro-core",
+      "repository": "https://github.com/EmulatorJS/libretro-uae",
+      "refType": "COMMIT",
+      "ref": "2245d3443cc12447c2c36c591ec50d6ed934fe69",
+      "commit": "2245d3443cc12447c2c36c591ec50d6ed934fe69"
+    },
+    {
+      "role": "emulatorjs-retroarch-linker",
+      "repository": "https://github.com/EmulatorJS/RetroArch",
+      "refType": "COMMIT",
+      "ref": "6dd4353937ef48b6ec0bfbdbb15d1c5992d86927",
+      "commit": "6dd4353937ef48b6ec0bfbdbb15d1c5992d86927"
+    }
+  ],
+  "adapterAbi": "emulatorjs-state-v1",
+  "releaseTagPattern": "^retrom-core-g2245d3443cc1-r[1-9][0-9]*(-rc\\.[1-9][0-9]*)?$",
+  "releaseAssets": [
+    "puae-thread-wasm.data",
+    "COPYING",
+    "source.tar.gz",
+    "rpg-runtime-release.json"
+  ]
+}

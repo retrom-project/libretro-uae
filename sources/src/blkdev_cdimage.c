@@ -2402,7 +2402,15 @@ static int open_device (int unitnum, const TCHAR *ident, int flags)
 		cdu->cdda_volume[1] = 0x7fff;
 		if (cdimage_unpack_thread == 0) {
 			init_comm_pipe (&unpack_pipe, 10, 1);
-			uae_start_thread (_T("cdimage_unpack"), cdda_unpack_func, NULL, NULL);
+			if (!uae_start_thread (_T("cdimage_unpack"), cdda_unpack_func, NULL, NULL)) {
+				write_log (_T("IMAGE: failed to start CD audio unpack thread.\n"));
+				destroy_comm_pipe (&unpack_pipe);
+				unload_image (cdu);
+				uae_sem_destroy (&cdu->sub_sem);
+				cdu->open = false;
+				cdu->enabled = false;
+				return 0;
+			}
 			while (cdimage_unpack_thread == 0)
 				sleep_millis (10);
 		}

@@ -2,6 +2,9 @@
 *.o
 *.so
 *.a
+*.bc
+.retrom-build/
+__pycache__/
 
 *.dll
 sources/gen/
